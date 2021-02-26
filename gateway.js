@@ -50,11 +50,20 @@ app.get('/', function (req, res) {
     console.log('Mensagem recebida via REST', req.query);
 
     let { number, content } = req.query;
-    number = number.includes('@c.us') ? number : `${number}@c.us`;
-    bot.sendMessage(number, content);
-    res.send('Mensagem enviada');
 
-    console.log('Enviada para o whatsapp');
+    if(number && content){
+        try{
+
+            number = number.includes('@c.us') ? number : `${number}@c.us`;
+            bot.sendMessage(number, content);
+            res.send('Mensagem enviada');
+            console.log('Enviada para o whatsapp');
+        }catch(error){
+            console.log('Informe um numero valido no formato 5500888888888');
+        }
+    }else{
+        console.log('Informe os parametros de url number e content');
+    }
 
 });
 //ENDHTTP
