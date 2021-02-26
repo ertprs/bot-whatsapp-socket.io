@@ -1,104 +1,36 @@
-[![npm](https://img.shields.io/npm/v/whatsapp-web.js.svg)](https://www.npmjs.com/package/whatsapp-web.js) [![Depfu](https://badges.depfu.com/badges/4a65a0de96ece65fdf39e294e0c8dcba/overview.svg)](https://depfu.com/github/pedroslopez/whatsapp-web.js?project_id=9765) ![WhatsApp_Web 2.2106.5](https://img.shields.io/badge/WhatsApp_Web-2.2106.5-brightgreen.svg) [![Discord Chat](https://img.shields.io/discord/698610475432411196.svg?logo=discord)](https://discord.gg/H7DqQs4)  
+##Sobre o projeto
 
-# whatsapp-web.js
-A WhatsApp API client that connects through the WhatsApp Web browser app
+Este projeto viabiliza a automação de mensagens de Whatsapp.
 
-It uses Puppeteer to run a real instance of Whatsapp Web to avoid getting blocked.
+O principal arquivo do projeto é o `gateway.js`, ele que escutará eventos http e socket.io e irá disparar o comando para o bot do whatsapp que foi construído usando um navegador serveless (puppeter)
 
-**NOTE:** I can't guarantee you will not be blocked by using this method, although it has worked for me. WhatsApp does not allow bots or unofficial clients on their platform, so this shouldn't be considered totally safe.
+##Instalação
 
-## Installation
+Para instalar o projeto, basta você clonar este repositório e executar um `npm install` e em seguida executar o comando `node gateway.js`
 
-The module is now available on npm! `npm i whatsapp-web.js`
+**Obs.:** Na primeira execução, é necessário que você escaneie o QR Code para habilitar a sessão do Whatsapp, por isso é fundamental a execução em primeiro plano. Depois de criado a sessão, você poderá utilizar ele em segundo plano - eu recomendo a utilização da ferramenta [pm2](https://pm2.keymetrics.io/docs/usage/quick-start/ "pm2").
 
-Please note that Node v10.18.1+ is required due to Puppeteer.
+##Consumindo a aplicação
 
-## Example usage
+Existem duas formas de consumir as funcionalidades desta automação sendo elas:
 
-```js
-const { Client } = require('whatsapp-web.js');
-const client = new Client();
+1. Via REST
 
-client.on('qr', (qr) => {
-    // Generate and scan this code with your phone
-    console.log('QR RECEIVED', qr);
+	Realize uma requisição do tipo GET/ para `http:://localhost:3000?number=5555555555555&content=seu-texto`
+
+2. Via socket.io
+
+```javascript
+const io = require("socket.io-client");
+var socket = io.connect("http://localhost:3000");
+
+socket.emit("received", {
+    number: '555555555555@c.us',
+    content: 'Esta é uma mensagem enviada através de socker.io'
 });
-
-client.on('ready', () => {
-    console.log('Client is ready!');
-});
-
-client.on('message', msg => {
-    if (msg.body == '!ping') {
-        msg.reply('pong');
-    }
-});
-
-client.initialize();
 ```
 
-Take a look at [example.js](https://github.com/pedroslopez/whatsapp-web.js/blob/master/example.js) for another example with more use cases.
+##Agradecimentos
 
-## Supported features
-
-| Feature  | Status |
-| ------------- | ------------- |
-| Send messages  | ✅  |
-| Receive messages  | ✅  |
-| Send media (images/audio/documents)  | ✅  |
-| Send media (video)  | ✅ [(requires google chrome)](https://waguide.pedroslopez.me/features/handling-attachments#caveat-for-sending-videos-and-gifs)  |
-| Send stickers | ✅ |
-| Receive media (images/audio/video/documents)  | ✅  |
-| Send contact cards | ✅ |
-| Send location | ✅ |
-| Receive location | ✅ | 
-| Message replies | ✅ |
-| Join groups by invite  | ✅ |
-| Get invite for group  | ✅ |
-| Modify group info (subject, description)  | ✅  |
-| Modify group settings (send messages, edit info)  | ✅  |
-| Add group participants  | ✅  |
-| Kick group participants  | ✅  |
-| Promote/demote group participants | ✅ |
-| Mention users | ✅ |
-| Mute/unmute chats | ✅ |
-| Block/unblock contacts | ✅ |
-| Get contact info | ✅ |
-| Get profile pictures | ✅ |
-| Set user status message | ✅ |
-
-Something missing? Make an issue and let us know!
-
-## Links
-
-* [Reference](https://pedroslopez.me/whatsapp-web.js)
-* [Guide](https://waguide.pedroslopez.me/) _(work in progress)_
-* [GitHub](https://github.com/pedroslopez/whatsapp-web.js)
-
-## Contributing
-
-Pull requests are welcome! If you see something you'd like to add, please do. For drastic changes, please open an issue first.
-
-## Donating
-
-You can support the maintainer of this project through the link below
-
-[![Support via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://www.paypal.me/psla/)
-
-## Disclaimer
-
-This project is not affiliated, associated, authorized, endorsed by, or in any way officially connected with WhatsApp or any of its subsidiaries or its affiliates. The official WhatsApp website can be found at https://whatsapp.com. "WhatsApp" as well as related names, marks, emblems and images are registered trademarks of their respective owners.
-
-## License
-
-Copyright 2019 Pedro S Lopez
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this project except in compliance with the License.
-You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+As funcionalidades do Whatsapp foram baseadas no pacote do Pedro Lopez
+* [https://pedroslopez.me/whatsapp-web.js](https://pedroslopez.me/whatsapp-web.js)
