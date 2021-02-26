@@ -2,7 +2,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 const fs = require('fs');
-const { Client, Location } = require('./index');
+const { Client } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 
 const SESSION_FILE_PATH = './session.json';
