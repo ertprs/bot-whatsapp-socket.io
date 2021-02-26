@@ -1,4 +1,4 @@
-##Sobre o projeto
+#Sobre o projeto
 
 Este projeto viabiliza a automação de mensagens de Whatsapp.
 
@@ -10,7 +10,7 @@ Para instalar o projeto, basta você clonar este repositório e executar um `npm
 
 **Obs.:** Na primeira execução, é necessário que você escaneie o QR Code para habilitar a sessão do Whatsapp, por isso é fundamental a execução em primeiro plano. Depois de criado a sessão, você poderá utilizar ele em segundo plano - eu recomendo a utilização da ferramenta [pm2](https://pm2.keymetrics.io/docs/usage/quick-start/ "pm2").
 
-##Consumindo a aplicação
+#Consumindo a aplicação
 
 Existem duas formas de consumir as funcionalidades desta automação sendo elas:
 
@@ -30,7 +30,7 @@ socket.emit("received", {
 });
 ```
 
-##Agradecimentos
+#Agradecimentos
 
 As funcionalidades do Whatsapp foram baseadas no pacote do Pedro Lopez
 * [https://pedroslopez.me/whatsapp-web.js](https://pedroslopez.me/whatsapp-web.js)
